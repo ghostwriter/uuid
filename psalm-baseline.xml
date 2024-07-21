@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505"/>
+<files psalm-version="5.25.0@01a8eb06b9e9cc6cfb6a320bf9fb14331919d505">
+  <file src="tests/Unit/UuidTest.php">
+    <PossiblyUndefinedIntArrayOffset>
+      <code><![CDATA[$uuids[1]]]></code>
+      <code><![CDATA[$uuids[1]]]></code>
+      <code><![CDATA[$uuids[2]]]></code>
+      <code><![CDATA[$uuids[2]]]></code>
+      <code><![CDATA[$uuids[3]]]></code>
+      <code><![CDATA[$uuids[3]]]></code>
+    </PossiblyUndefinedIntArrayOffset>
+  </file>
+</files>

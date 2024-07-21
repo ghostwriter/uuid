@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use DateTimeImmutable;
+use Ghostwriter\Uuid\Exception\InvalidUuidStringException;
 use Ghostwriter\Uuid\Interface\UuidInterface;
 use Ghostwriter\Uuid\Uuid;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
@@ -15,6 +17,7 @@ use function is_a;
 use function usort;
 
 #[CoversClass(Uuid::class)]
+#[UsesClass(InvalidUuidStringException::class)]
 final class UuidTest extends TestCase
 {
     /**
@@ -125,6 +128,17 @@ final class UuidTest extends TestCase
     public function testNotSame(): void
     {
         self::assertNotSame(Uuid::new(), Uuid::new());
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testThrowsInvalidUuidStringException(): void
+    {
+        $this->expectException(InvalidUuidStringException::class);
+        $this->expectExceptionMessage('invalid-uuid-string');
+
+        new Uuid('invalid-uuid-string');
     }
 
     /**

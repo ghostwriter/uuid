@@ -10,6 +10,7 @@ use Ghostwriter\Uuid\Uuid;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
+use Throwable;
 
 use function is_a;
 
@@ -19,6 +20,7 @@ final class InvalidUuidStringExceptionTest extends TestCase
 {
     public function testImplementsUuidExceptionInterface(): void
     {
+        self::assertTrue(is_a(InvalidUuidStringException::class, Throwable::class, true));
         self::assertTrue(is_a(InvalidUuidStringException::class, UuidExceptionInterface::class, true));
     }
 

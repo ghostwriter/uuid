@@ -38,21 +38,52 @@ echo $uuid->toString(); // 0000669c-8deb-7fe7-b9cc-692b216999a3
 Generate a new UUID
 
 ```php
-use Ghostwriter\Uuid\Uuid;
-
-$uuid = Uuid::new();
-
-echo $uuid->toString(); // 0000669c-8f99-711e-9ed0-72a35c3b6fb3
+echo Uuid::new()->toString(); // 0000669c-8f99-711e-9ed0-72a35c3b6fb3
 ```
 
 Generate a new UUID with a specific timestamp
 
 ```php
-use Ghostwriter\Uuid\Uuid;
+echo Uuid::new(new DateTimeImmutable())->toString(); // 0000669c-8faf-7e4b-9ed9-45c4c2b27f07
+```
 
-$uuid = Uuid::new(new DateTimeImmutable())
+Compare UUIDs based on their timestamp
 
-echo $uuid->toString(); // 0000669c-8faf-7e4b-9ed9-45c4c2b27f07
+```php
+$uuid1 = Uuid::new(new DateTimeImmutable('-1 year'));
+$uuid2 = Uuid::new(new DateTimeImmutable('-1 month'));
+$uuid3 = Uuid::new(new DateTimeImmutable('-1 week'));
+$uuid4 = Uuid::new(new DateTimeImmutable('-1 day'));
+
+assert(0 === $uuid1->compare($uuid1));
+assert(-1 === $uuid1->compare($uuid2));
+assert(-1 === $uuid1->compare($uuid3));
+assert(-1 === $uuid1->compare($uuid4));
+
+assert(1 === $uuid2->compare($uuid1));
+assert(0 === $uuid2->compare($uuid2));
+assert(-1 === $uuid2->compare($uuid3));
+assert(-1 === $uuid2->compare($uuid4));
+
+assert(1 === $uuid3->compare($uuid1));
+assert(1 === $uuid3->compare($uuid2));
+assert(0 === $uuid3->compare($uuid3));
+assert(-1 === $uuid3->compare($uuid4));
+
+assert(1 === $uuid4->compare($uuid1));
+assert(1 === $uuid4->compare($uuid2));
+assert(1 === $uuid4->compare($uuid3));
+assert(0 === $uuid4->compare($uuid4));
+
+/** @var array{0:UuidInterface,1:UuidInterface,2:UuidInterface,3:UuidInterface} $uuids */
+$uuids = [$uuid3, $uuid1, $uuid4, $uuid2];
+
+usort($uuids, static fn (UuidInterface $left, UuidInterface $right): int => $left->compare($right));
+
+assert($uuid1->toString() === $uuids[0]->toString());
+assert($uuid2->toString() === $uuids[1]->toString());
+assert($uuid3->toString() === $uuids[2]->toString());
+assert($uuid4->toString() === $uuids[3]->toString());
 ```
 
 ### Credits

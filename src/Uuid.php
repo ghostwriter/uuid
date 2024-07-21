@@ -21,6 +21,7 @@ use function mb_substr;
 use function preg_match;
 use function random_bytes;
 use function sprintf;
+use function str_replace;
 
 /** @see UuidTest */
 final readonly class Uuid implements UuidInterface
@@ -40,35 +41,35 @@ final readonly class Uuid implements UuidInterface
     }
 
     #[Override]
+    public function compare(UuidInterface $uuid): int
+    {
+        return $this->timestamp($this) <=> $this->timestamp($uuid);
+    }
+
+    #[Override]
     public function toString(): string
     {
         return $this->uuid;
     }
 
+    private function timestamp(UuidInterface $uuid): int
+    {
+        return hexdec(mb_substr(str_replace('-', '', $uuid->toString()), 0, 12, 'UTF-8'));
+    }
+
     /**
      * @throws Throwable
      */
-    public static function new(DateTimeInterface $dateTime = new DateTimeImmutable()): self
+    public static function new(DateTimeInterface $dateTime = new DateTimeImmutable('now')): self
     {
         $hex = mb_str_pad(dechex($dateTime->getTimestamp()), 12, '0', STR_PAD_LEFT) . bin2hex(random_bytes(10));
 
         return new self(sprintf(
-            '%08s-%04s-%04x-%04x-%12s',
-            /**  32 bits for "time_low" */
+            '%08s-%04s-%04x-%04x-%012s',
             mb_substr($hex, 0, 8),
-            /** 16 bits for "time_mid" */
             mb_substr($hex, 8, 4),
-            /**
-             * 16 bits for "time_hi_and_version",
-             * four most significant bits holds version number.
-             */
             (hexdec(mb_substr($hex, 12, 4)) & 0x0fff) | 7 << 12,
-            /**
-             * 16 bits, 8 bits for "clk_seq_hi_res", 8 bits for "clk_seq_low",
-             * two most significant bits holds zero and one for variant DCE1.1.
-             */
             (hexdec(mb_substr($hex, 16, 4)) & 0x3fff) | 0x8000,
-            /** 48 bits for "node" */
             mb_substr($hex, 20, 12)
         ));
     }

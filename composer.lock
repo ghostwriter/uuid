@@ -4207,7 +4207,7 @@
         "php": ">=8.3",
         "ext-mbstring": "*"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.3.999"
     },

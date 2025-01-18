@@ -35,9 +35,26 @@ final readonly class Uuid implements UuidInterface
         private string $uuid
     ) {
         $match = preg_match(self::PATTERN, $uuid);
-        if ($match === 0 || $match === false) {
+        if (0 === $match || false === $match) {
             throw new InvalidUuidStringException($uuid);
         }
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public static function new(DateTimeInterface $dateTime = new DateTimeImmutable('now')): self
+    {
+        $hex = mb_str_pad(dechex($dateTime->getTimestamp()), 12, '0', STR_PAD_LEFT) . bin2hex(random_bytes(10));
+
+        return new self(sprintf(
+            '%08s-%04s-%04x-%04x-%012s',
+            mb_substr($hex, 0, 8),
+            mb_substr($hex, 8, 4),
+            (hexdec(mb_substr($hex, 12, 4)) & 0x0FFF) | 7 << 12,
+            (hexdec(mb_substr($hex, 16, 4)) & 0x3FFF) | 0x8000,
+            mb_substr($hex, 20, 12)
+        ));
     }
 
     #[Override]
@@ -55,22 +72,5 @@ final readonly class Uuid implements UuidInterface
     private function timestamp(UuidInterface $uuid): int
     {
         return hexdec(mb_substr(str_replace('-', '', $uuid->toString()), 0, 12, 'UTF-8'));
-    }
-
-    /**
-     * @throws Throwable
-     */
-    public static function new(DateTimeInterface $dateTime = new DateTimeImmutable('now')): self
-    {
-        $hex = mb_str_pad(dechex($dateTime->getTimestamp()), 12, '0', STR_PAD_LEFT) . bin2hex(random_bytes(10));
-
-        return new self(sprintf(
-            '%08s-%04s-%04x-%04x-%012s',
-            mb_substr($hex, 0, 8),
-            mb_substr($hex, 8, 4),
-            (hexdec(mb_substr($hex, 12, 4)) & 0x0fff) | 7 << 12,
-            (hexdec(mb_substr($hex, 16, 4)) & 0x3fff) | 0x8000,
-            mb_substr($hex, 20, 12)
-        ));
     }
 }

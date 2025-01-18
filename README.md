@@ -4,8 +4,6 @@
 [![Supported PHP Version](https://badgen.net/packagist/php/ghostwriter/uuid?color=8892bf)](https://www.php.net/supported-versions)
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/ghostwriter?label=Sponsor+@ghostwriter/uuid&logo=GitHub+Sponsors)](https://github.com/sponsors/ghostwriter)
 [![Code Coverage](https://codecov.io/gh/ghostwriter/uuid/branch/main/graph/badge.svg)](https://codecov.io/gh/ghostwriter/uuid)
-[![Type Coverage](https://shepherd.dev/github/ghostwriter/uuid/coverage.svg)](https://shepherd.dev/github/ghostwriter/uuid)
-[![Psalm Level](https://shepherd.dev/github/ghostwriter/uuid/level.svg)](https://psalm.dev/docs/running_psalm/error_levels)
 [![Latest Version on Packagist](https://badgen.net/packagist/v/ghostwriter/uuid)](https://packagist.org/packages/ghostwriter/uuid)
 [![Downloads](https://badgen.net/packagist/dt/ghostwriter/uuid?color=blue)](https://packagist.org/packages/ghostwriter/uuid)
 

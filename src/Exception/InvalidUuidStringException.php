@@ -10,6 +10,4 @@ use InvalidArgumentException;
 /**
  * @see InvalidUuidStringExceptionTest
  */
-final class InvalidUuidStringException extends InvalidArgumentException implements UuidExceptionInterface
-{
-}
+final class InvalidUuidStringException extends InvalidArgumentException implements UuidExceptionInterface {}

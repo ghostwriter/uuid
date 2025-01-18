@@ -8,14 +8,13 @@ use Ghostwriter\Uuid\Exception\InvalidUuidStringException;
 use Ghostwriter\Uuid\Interface\UuidExceptionInterface;
 use Ghostwriter\Uuid\Uuid;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
 use function is_a;
 
-#[UsesClass(Uuid::class)]
 #[CoversClass(InvalidUuidStringException::class)]
+#[CoversClass(Uuid::class)]
 final class InvalidUuidStringExceptionTest extends TestCase
 {
     public function testImplementsUuidExceptionInterface(): void

@@ -6,6 +6,4 @@ namespace Ghostwriter\Uuid\Interface;
 
 use Throwable;
 
-interface UuidExceptionInterface extends Throwable
-{
-}
+interface UuidExceptionInterface extends Throwable {}

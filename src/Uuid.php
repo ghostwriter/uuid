@@ -34,8 +34,7 @@ final readonly class Uuid implements UuidInterface
     public function __construct(
         private string $uuid
     ) {
-        $match = preg_match(self::PATTERN, $uuid);
-        if (0 === $match || false === $match) {
+        if (1 !== preg_match(self::PATTERN, $uuid)) {
             throw new InvalidUuidStringException($uuid);
         }
     }
@@ -60,17 +59,18 @@ final readonly class Uuid implements UuidInterface
     #[Override]
     public function compare(UuidInterface $uuid): int
     {
-        return $this->timestamp($this) <=> $this->timestamp($uuid);
+        return $this->timestamp() <=> $uuid->timestamp();
+    }
+
+    #[Override]
+    public function timestamp(): int
+    {
+        return hexdec(mb_substr(str_replace('-', '', $this->uuid), 0, 12, 'UTF-8'));
     }
 
     #[Override]
     public function toString(): string
     {
         return $this->uuid;
-    }
-
-    private function timestamp(UuidInterface $uuid): int
-    {
-        return hexdec(mb_substr(str_replace('-', '', $uuid->toString()), 0, 12, 'UTF-8'));
     }
 }

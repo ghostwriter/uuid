@@ -8,5 +8,7 @@ interface UuidInterface
 {
     public function compare(self $uuid): int;
 
+    public function timestamp(): int;
+
     public function toString(): string;
 }

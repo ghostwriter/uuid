@@ -144,6 +144,21 @@ final class UuidTest extends TestCase
     /**
      * @throws Throwable
      */
+    public function testTimestamp(): void
+    {
+        $now = new DateTimeImmutable('now');
+        self::assertSame($now->getTimestamp(), Uuid::new($now)->timestamp());
+
+        $yesterday = new DateTimeImmutable('-1 day');
+        self::assertSame($yesterday->getTimestamp(), Uuid::new($yesterday)->timestamp());
+
+        $lastWeek = new DateTimeImmutable('-1 week');
+        self::assertSame($lastWeek->getTimestamp(), Uuid::new($lastWeek)->timestamp());
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function testToString(): void
     {
         self::assertNotSame(Uuid::new()->toString(), Uuid::new()->toString());

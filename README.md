@@ -45,13 +45,12 @@ Generate a new UUID with a specific timestamp
 echo Uuid::new(new DateTimeImmutable())->toString(); // 0000669c-8faf-7e4b-9ed9-45c4c2b27f07
 ```
 
-Compare UUIDs based on their timestamp ( `0: equal`, `1: older`, `-1: newer`)
+Compare and Sort UUIDs based on their timestamp ( `0: equal`, `1: older`, `-1: newer`)
 
 ```php
 $uuidLastYear = Uuid::new(new DateTimeImmutable('-1 year'));
 $uuidLastMonth = Uuid::new(new DateTimeImmutable('-1 month'));
 $uuidLastWeek = Uuid::new(new DateTimeImmutable('-1 week'));
-$uuidYesterday = Uuid::new(new DateTimeImmutable('-1 day'));
 
 // LastYear comparisons
 // 0: LastYear is the same as LastYear
@@ -60,8 +59,6 @@ assert(0 === $uuidLastYear->compare($uuidLastYear));
 assert(-1 === $uuidLastYear->compare($uuidLastMonth));
 // -1: LastWeek is newer than LastYear
 assert(-1 === $uuidLastYear->compare($uuidLastWeek));
-// -1: Yesterday is newer than LastYear
-assert(-1 === $uuidLastYear->compare($uuidYesterday));
 
 // LastMonth comparisons
 // 1: LastYear is older than LastMonth
@@ -70,8 +67,6 @@ assert(1 === $uuidLastMonth->compare($uuidLastYear));
 assert(0 === $uuidLastMonth->compare($uuidLastMonth));
 // -1: LastWeek is newer than LastMonth
 assert(-1 === $uuidLastMonth->compare($uuidLastWeek));
-// -1: Yesterday is newer than LastMonth
-assert(-1 === $uuidLastMonth->compare($uuidYesterday));
 
 // LastWeek comparisons
 // 1: LastYear is older than LastWeek
@@ -80,21 +75,9 @@ assert(1 === $uuidLastWeek->compare($uuidLastYear));
 assert(1 === $uuidLastWeek->compare($uuidLastMonth));
 // 0: LastWeek is the same as LastWeek
 assert(0 === $uuidLastWeek->compare($uuidLastWeek));
-// -1: Yesterday is newer than LastWeek
-assert(-1 === $uuidLastWeek->compare($uuidYesterday));
-
-// Yesterday comparisons
-// 1: LastYear is older than Yesterday
-assert(1 === $uuidYesterday->compare($uuidLastYear));
-// 1: LastMonth is older than Yesterday
-assert(1 === $uuidYesterday->compare($uuidLastMonth));
-// 1: LastWeek is older than Yesterday
-assert(1 === $uuidYesterday->compare($uuidLastWeek));
-// 0: Yesterday is the same as Yesterday
-assert(0 === $uuidYesterday->compare($uuidYesterday));
 
 /** @var array{0:UuidInterface,1:UuidInterface,2:UuidInterface,3:UuidInterface} $uuids */
-$uuids = [$uuidLastWeek, $uuidLastYear, $uuidYesterday, $uuidLastMonth];
+$uuids = [$uuidLastWeek, $uuidLastYear, $uuidLastMonth];
 
 usort($uuids, static fn (UuidInterface $left, UuidInterface $right): int => $left->compare($right));
 
@@ -104,8 +87,6 @@ assert($uuidLastYear === $uuids[0]);
 assert($uuidLastMonth === $uuids[1]);
 // Third: LastWeek
 assert($uuidLastWeek === $uuids[2]);
-// Fourth: Yesterday (newest)
-assert($uuidYesterday === $uuids[3]);
 ```
 
 ### Credits

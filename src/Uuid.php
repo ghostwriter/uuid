@@ -73,4 +73,9 @@ final readonly class Uuid implements UuidInterface
     {
         return $this->uuid;
     }
+
+    public static function fromString(string $uuid): self
+    {
+        return new self($uuid);
+    }
 }

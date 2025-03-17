@@ -27,6 +27,8 @@ Initialize a new Uuid instance with a given UUID string
 use Ghostwriter\Uuid\Uuid;
 
 $uuid = new Uuid('0000669c-8deb-7fe7-b9cc-692b216999a3');
+// or
+$uuid = Uuid::fromString('0000669c-8deb-7fe7-b9cc-692b216999a3');
 
 echo $uuid->toString(); // 0000669c-8deb-7fe7-b9cc-692b216999a3
 ```

@@ -53,36 +53,59 @@ $uuidLastMonth = Uuid::new(new DateTimeImmutable('-1 month'));
 $uuidLastWeek = Uuid::new(new DateTimeImmutable('-1 week'));
 $uuidYesterday = Uuid::new(new DateTimeImmutable('-1 day'));
 
-// Comparisons
-assert(0 === $uuidLastYear->compare($uuidLastYear));   // 0: LastYear is the same as LastYear
-assert(-1 === $uuidLastYear->compare($uuidLastMonth)); // -1: LastMonth is newer than LastYear
-assert(-1 === $uuidLastYear->compare($uuidLastWeek));  // -1: LastWeek is newer than LastYear
-assert(-1 === $uuidLastYear->compare($uuidYesterday)); // -1: Yesterday is newer than LastYear
+// LastYear comparisons
+// 0: LastYear is the same as LastYear
+assert(0 === $uuidLastYear->compare($uuidLastYear));
+// -1: LastMonth is newer than LastYear
+assert(-1 === $uuidLastYear->compare($uuidLastMonth));
+// -1: LastWeek is newer than LastYear
+assert(-1 === $uuidLastYear->compare($uuidLastWeek));
+// -1: Yesterday is newer than LastYear
+assert(-1 === $uuidLastYear->compare($uuidYesterday));
 
-assert(1 === $uuidLastMonth->compare($uuidLastYear));  // 1: LastYear is older than LastMonth
-assert(0 === $uuidLastMonth->compare($uuidLastMonth)); // 0: LastMonth is the same as LastMonth
-assert(-1 === $uuidLastMonth->compare($uuidLastWeek)); // -1: LastWeek is newer than LastMonth
-assert(-1 === $uuidLastMonth->compare($uuidYesterday));// -1: Yesterday is newer than LastMonth
+// LastMonth comparisons
+// 1: LastYear is older than LastMonth
+assert(1 === $uuidLastMonth->compare($uuidLastYear));
+// 0: LastMonth is the same as LastMonth
+assert(0 === $uuidLastMonth->compare($uuidLastMonth));
+// -1: LastWeek is newer than LastMonth
+assert(-1 === $uuidLastMonth->compare($uuidLastWeek));
+// -1: Yesterday is newer than LastMonth
+assert(-1 === $uuidLastMonth->compare($uuidYesterday));
 
-assert(1 === $uuidLastWeek->compare($uuidLastYear));   // 1: LastYear is older than LastWeek
-assert(1 === $uuidLastWeek->compare($uuidLastMonth));  // 1: LastMonth is older than LastWeek
-assert(0 === $uuidLastWeek->compare($uuidLastWeek));   // 0: LastWeek is the same as LastWeek
-assert(-1 === $uuidLastWeek->compare($uuidYesterday)); // -1: Yesterday is newer than LastWeek
+// LastWeek comparisons
+// 1: LastYear is older than LastWeek
+assert(1 === $uuidLastWeek->compare($uuidLastYear));
+// 1: LastMonth is older than LastWeek
+assert(1 === $uuidLastWeek->compare($uuidLastMonth));
+// 0: LastWeek is the same as LastWeek
+assert(0 === $uuidLastWeek->compare($uuidLastWeek));
+// -1: Yesterday is newer than LastWeek
+assert(-1 === $uuidLastWeek->compare($uuidYesterday));
 
-assert(1 === $uuidYesterday->compare($uuidLastYear));  // 1: LastYear is older than Yesterday
-assert(1 === $uuidYesterday->compare($uuidLastMonth)); // 1: LastMonth is older than Yesterday
-assert(1 === $uuidYesterday->compare($uuidLastWeek));  // 1: LastWeek is older than Yesterday
-assert(0 === $uuidYesterday->compare($uuidYesterday)); // 0: Yesterday is the same as Yesterday
+// Yesterday comparisons
+// 1: LastYear is older than Yesterday
+assert(1 === $uuidYesterday->compare($uuidLastYear));
+// 1: LastMonth is older than Yesterday
+assert(1 === $uuidYesterday->compare($uuidLastMonth));
+// 1: LastWeek is older than Yesterday
+assert(1 === $uuidYesterday->compare($uuidLastWeek));
+// 0: Yesterday is the same as Yesterday
+assert(0 === $uuidYesterday->compare($uuidYesterday));
 
 /** @var array{0:UuidInterface,1:UuidInterface,2:UuidInterface,3:UuidInterface} $uuids */
 $uuids = [$uuidLastWeek, $uuidLastYear, $uuidYesterday, $uuidLastMonth];
 
 usort($uuids, static fn (UuidInterface $left, UuidInterface $right): int => $left->compare($right));
 
-assert($uuidLastYear === $uuids[0]);   // First: LastYear (oldest)
-assert($uuidLastMonth  === $uuids[1]);  // Second: LastMonth
-assert($uuidLastWeek === $uuids[2]);   // Third: LastWeek
-assert($uuidYesterday === $uuids[3]);  // Fourth: Yesterday (newest)
+// First: LastYear (oldest)
+assert($uuidLastYear === $uuids[0]);
+// Second: LastMonth
+assert($uuidLastMonth === $uuids[1]);
+// Third: LastWeek
+assert($uuidLastWeek === $uuids[2]);
+// Fourth: Yesterday (newest)
+assert($uuidYesterday === $uuids[3]);
 ```
 
 ### Credits

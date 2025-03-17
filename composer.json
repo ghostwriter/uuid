@@ -19,6 +19,7 @@
     "support": {
         "issues": "https://github.com/ghostwriter/uuid/issues",
         "source": "https://github.com/ghostwriter/uuid",
+        "docs": "https://github.com/ghostwriter/uuid",
         "rss": "https://github.com/ghostwriter/uuid/releases.atom",
         "security": "https://github.com/ghostwriter/uuid/security/advisories/new"
     },
@@ -70,6 +71,7 @@
         "platform": {
             "php": "8.4.999"
         },
+        "platform-check": true,
         "preferred-install": "dist",
         "prepend-autoloader": true,
         "process-timeout": 5000,

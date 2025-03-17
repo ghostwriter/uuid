@@ -116,7 +116,7 @@ final class UuidTest extends TestCase
     public function testNew(): void
     {
         $uuid = Uuid::new();
-        $uuid1 = new Uuid($uuid->toString());
+        $uuid1 = Uuid::fromString($uuid->toString());
 
         self::assertNotSame($uuid1, $uuid);
         self::assertSame($uuid1->toString(), $uuid->toString());
@@ -138,7 +138,7 @@ final class UuidTest extends TestCase
         $this->expectException(InvalidUuidStringException::class);
         $this->expectExceptionMessage('invalid-uuid-string');
 
-        new Uuid('invalid-uuid-string');
+        Uuid::fromString('invalid-uuid-string');
     }
 
     /**

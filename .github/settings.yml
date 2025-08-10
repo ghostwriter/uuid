@@ -3,7 +3,6 @@
   "description": "Version 7 UUIDs using a Unix timestamp for PHP"
   "homepage": "https://github.com/ghostwriter/uuid"
   "topics": "ghostwriter, uuid, uuid-7"
-  "private": false
   "has_issues": true
   "has_projects": false
   "has_wiki": false

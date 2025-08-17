@@ -4,8 +4,8 @@
   "homepage": "https://github.com/ghostwriter/uuid"
   "topics": "ghostwriter, uuid, uuid-7"
   "has_issues": true
-  "has_projects": true
-  "has_wiki": true
+  "has_projects": false
+  "has_wiki": false
   "has_downloads": true
   "default_branch": "1.0.x"
   "allow_squash_merge": true

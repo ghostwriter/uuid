@@ -96,8 +96,8 @@
     },
     "extra": {
         "thanks": {
-            "url": "https://github.com/ghostwriter/uuid",
-            "name": "ghostwriter/uuid"
+            "name": "ghostwriter/uuid",
+            "url": "https://github.com/ghostwriter/uuid"
         }
     }
 }

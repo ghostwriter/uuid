@@ -1,7 +1,7 @@
 {
     "name": "ghostwriter/uuid",
     "description": "Version 7 UUIDs using a Unix timestamp for PHP",
-    "license": "BSD-4-Clause",
+    "license": "BSD-3-Clause",
     "type": "library",
     "keywords": [
         "ghostwriter",

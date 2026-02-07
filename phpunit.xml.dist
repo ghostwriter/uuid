@@ -11,14 +11,9 @@
     colors="true"
     displayDetailsOnAllIssues="true"
     executionOrder="depends,random"
-    failOnDeprecation="true"
-    failOnEmptyTestSuite="true"
-    failOnIncomplete="true"
-    failOnNotice="true"
-    failOnRisky="true"
-    failOnSkipped="true"
-    failOnWarning="true"
+    failOnAllIssues="true"
     requireCoverageMetadata="true"
+    stopOnFailure="true"
 >
     <coverage pathCoverage="true" disableCodeCoverageIgnore="true">
         <report>

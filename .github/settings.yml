@@ -23,10 +23,6 @@
 "repository":
   "name": "uuid"
   "description": "Version 7 UUIDs using a Unix timestamp for PHP"
-  "topics":
-    - "ghostwriter"
-    - "uuid"
-    - "php"
   "homepage": "https://github.com/ghostwriter/uuid"
   "default_branch": "1.0.x"
   "allow_auto_merge": true

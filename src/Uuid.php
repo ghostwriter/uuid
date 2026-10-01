@@ -11,26 +11,23 @@ use Ghostwriter\Uuid\Interface\UuidInterface;
 use Override;
 use Throwable;
 
-use const STR_PAD_LEFT;
-
 use function bin2hex;
 use function dechex;
 use function hexdec;
-use function mb_str_pad;
 use function mb_substr;
 use function preg_match;
 use function random_bytes;
 use function sprintf;
 use function str_replace;
 
-/** @see UuidTest */
+/**
+ * @see UuidTest
+ */
 final readonly class Uuid implements UuidInterface
 {
     public const string PATTERN = '#^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$#i';
 
-    /**
-     * @throws InvalidUuidStringException
-     */
+    /** @throws InvalidUuidStringException */
     public function __construct(
         private string $uuid
     ) {
@@ -39,20 +36,21 @@ final readonly class Uuid implements UuidInterface
         }
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws InvalidUuidStringException */
     public static function new(DateTimeInterface $dateTime = new DateTimeImmutable('now')): self
     {
-        $hex = mb_str_pad(dechex($dateTime->getTimestamp()), 12, '0', STR_PAD_LEFT) . bin2hex(random_bytes(10));
+        $milliseconds = (int) $dateTime->format('Uv');
+
+        $random = bin2hex(random_bytes(10));
 
         return new self(sprintf(
-            '%08s-%04s-%04x-%04x-%012s',
-            mb_substr($hex, 0, 8),
-            mb_substr($hex, 8, 4),
-            (hexdec(mb_substr($hex, 12, 4)) & 0x0FFF) | 7 << 12,
-            (hexdec(mb_substr($hex, 16, 4)) & 0x3FFF) | 0x8000,
-            mb_substr($hex, 20, 12)
+            '%08s-%04s-7%03s-%1s%03s-%012s',
+            dechex($milliseconds >> 16),
+            dechex($milliseconds & 0xFFFF),
+            mb_substr($random, 0, 3),
+            '89ab'[hexdec($random[3]) >> 2],
+            mb_substr($random, 4, 3),
+            mb_substr($random, 7, 12),
         ));
     }
 

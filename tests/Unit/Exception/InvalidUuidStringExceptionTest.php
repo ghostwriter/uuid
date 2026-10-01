@@ -8,26 +8,23 @@ use Ghostwriter\Uuid\Exception\InvalidUuidStringException;
 use Ghostwriter\Uuid\Interface\UuidExceptionInterface;
 use Ghostwriter\Uuid\Uuid;
 use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Attributes\CoversClassesThatImplementInterface;
+use Tests\Unit\AbstractTestCase;
 use Throwable;
-
-use function is_a;
 
 #[CoversClass(InvalidUuidStringException::class)]
 #[CoversClass(Uuid::class)]
-final class InvalidUuidStringExceptionTest extends TestCase
+#[CoversClassesThatImplementInterface(UuidExceptionInterface::class)]
+final class InvalidUuidStringExceptionTest extends AbstractTestCase
 {
-    public function testImplementsUuidExceptionInterface(): void
-    {
-        self::assertTrue(is_a(InvalidUuidStringException::class, Throwable::class, true));
-        self::assertTrue(is_a(InvalidUuidStringException::class, UuidExceptionInterface::class, true));
-    }
-
+    /** @throws Throwable */
     public function testThrowsInvalidUuidStringException(): void
     {
-        $this->expectException(InvalidUuidStringException::class);
-        $this->expectExceptionMessage('invalid-uuid-string');
-
-        new Uuid('invalid-uuid-string');
+        try {
+            new Uuid('invalid-uuid-string');
+        } catch (InvalidUuidStringException $exception) {
+            self::assertInstanceOf(UuidExceptionInterface::class, $exception);
+            self::assertSame('invalid-uuid-string', $exception->getMessage());
+        }
     }
 }

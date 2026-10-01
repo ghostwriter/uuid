@@ -9,20 +9,18 @@ use Ghostwriter\Uuid\Exception\InvalidUuidStringException;
 use Ghostwriter\Uuid\Interface\UuidInterface;
 use Ghostwriter\Uuid\Uuid;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\CoversClassesThatImplementInterface;
 use PHPUnit\Framework\Attributes\UsesClass;
-use PHPUnit\Framework\TestCase;
 use Throwable;
 
-use function is_a;
 use function usort;
 
 #[CoversClass(Uuid::class)]
+#[CoversClassesThatImplementInterface(UuidInterface::class)]
 #[UsesClass(InvalidUuidStringException::class)]
-final class UuidTest extends TestCase
+final class UuidTest extends AbstractTestCase
 {
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testCompare(): void
     {
         $uuid1 = Uuid::new(new DateTimeImmutable('-1 year'));
@@ -61,9 +59,7 @@ final class UuidTest extends TestCase
         self::assertSame($uuid4->toString(), $uuids[3]->toString());
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testCompareSameTimestamp(): void
     {
         $uuid1 = Uuid::new(new DateTimeImmutable('now'));
@@ -102,17 +98,13 @@ final class UuidTest extends TestCase
         self::assertSame($uuid4->toString(), $uuids[2]->toString());
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testImplementsUuidInterface(): void
     {
-        self::assertTrue(is_a(Uuid::class, UuidInterface::class, true));
+        self::assertInstanceOf(UuidInterface::class, Uuid::new());
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testNew(): void
     {
         $uuid = Uuid::new();
@@ -122,43 +114,35 @@ final class UuidTest extends TestCase
         self::assertSame($uuid1->toString(), $uuid->toString());
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testNotSame(): void
     {
         self::assertNotSame(Uuid::new(), Uuid::new());
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testThrowsInvalidUuidStringException(): void
     {
         $this->expectException(InvalidUuidStringException::class);
-        $this->expectExceptionMessage('invalid-uuid-string');
+        $this->expectExceptionMessageIs('invalid-uuid-string');
 
         Uuid::fromString('invalid-uuid-string');
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testTimestamp(): void
     {
         $now = new DateTimeImmutable('now');
-        self::assertSame($now->getTimestamp(), Uuid::new($now)->timestamp());
+        self::assertSame((int) $now->format('Uv'), Uuid::new($now)->timestamp());
 
         $yesterday = new DateTimeImmutable('-1 day');
-        self::assertSame($yesterday->getTimestamp(), Uuid::new($yesterday)->timestamp());
+        self::assertSame((int) $yesterday->format('Uv'), Uuid::new($yesterday)->timestamp());
 
         $lastWeek = new DateTimeImmutable('-1 week');
-        self::assertSame($lastWeek->getTimestamp(), Uuid::new($lastWeek)->timestamp());
+        self::assertSame((int) $lastWeek->format('Uv'), Uuid::new($lastWeek)->timestamp());
     }
 
-    /**
-     * @throws Throwable
-     */
+    /** @throws Throwable */
     public function testToString(): void
     {
         self::assertNotSame(Uuid::new()->toString(), Uuid::new()->toString());

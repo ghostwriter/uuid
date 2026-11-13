@@ -130,6 +130,17 @@ final class UuidTest extends AbstractTestCase
     }
 
     /** @throws Throwable */
+    public function testThrowsInvalidUuidStringExceptionForTrailingNewline(): void
+    {
+        $uuid = Uuid::new()->toString() . "\n";
+
+        $this->expectException(InvalidUuidStringException::class);
+        $this->expectExceptionMessageIs($uuid);
+
+        Uuid::fromString($uuid);
+    }
+
+    /** @throws Throwable */
     public function testTimestamp(): void
     {
         $now = new DateTimeImmutable('now');
